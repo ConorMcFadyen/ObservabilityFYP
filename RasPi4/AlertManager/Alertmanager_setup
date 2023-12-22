@@ -1,0 +1,25 @@
+# Get and extract prometheus for our RasPi4
+wget https://github.com/prometheus/alertmanager/releases/download/v0.16.0-alpha.0/alertmanager-0.16.0-alpha.0.linux-armv7.tar.gz
+tar xfz alertmanager-0.16.0-alpha.0.linux-armv7.tar.gz
+
+# Extract it to a new folder called 'alertmanager'
+sudo mkdir -p home/conor/alertmanager
+sudo cp alertmanager-0.16.0-alpha.0.linux-armv7 home/conor/alertmanager
+
+
+#Remove the zipped and copied files
+rm alertmanager-0.16.0-alpha.0.linux-armv7.tar.gz
+rm alertmanager-0.16.0-alpha.0.linux-armv7
+
+# Set up alertmanager as a service
+sudo nano /etc/systemd/system/alertmanager.service
+
+
+# Create a data directory 
+mkdir -p /home/conor/alertmanager/data
+touch /home/conor/alertmanager/data/nflog
+touch /home/conor/alertmanager/data/silences
+
+
+# Create the alertmanager config file
+sudo nano /home/conor/alertmanager/alertmanager.yml

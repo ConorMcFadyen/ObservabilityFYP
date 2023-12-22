@@ -1,0 +1,17 @@
+groups:
+- name: rulegroup_1
+  rules: 
+  - alert: High_Router_RAM_utilizaition
+    expr: ( (node_memory_MemTotal_bytes{} - node_memory_MemFree_bytes{} ) / node_memory_MemTotal_bytes{} ) * 100 > 50
+    for: 2m
+    labels: 
+      severity: critical
+    annotations:
+      summary: Utilization of RAM is above 50%
+  - alert: High_Router_CPU_utilization
+    expr: (((count(count(node_cpu_seconds_total{job=~"router"}) by (CPU) -  avg(sum by (mode)(irate(node_cpu_seconds_total{mode='idle', job="router"}[5m] )))) *100 / count(count(node_cpu_seconds_total{job=~"router"}) by (CPU)) > 20  
+    for: 2m 
+    labels:
+      severity: critical
+    annotations:
+      summary: Utilization of CPU is above 20%

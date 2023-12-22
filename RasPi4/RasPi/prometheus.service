@@ -1,0 +1,17 @@
+/etc/systemd/system 
+
+[Unit]
+Description=Prometheus Server
+Documentation=https://prometheus.io/docs/introduction/overview/
+After=network-online.target
+
+[Service]
+User=conor
+Restart=on-failure
+
+ExecStart=/home/conor/prometheus/prometheus \
+  --config.file=/home/conor/prometheus/prometheus.yml \
+  --storage.tsdb.path=/home/conor/prometheus/data
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+
+#Install packages to collect metrics on the system level
+opkg install prometheus-node-exporter-lua 
+opkg prometheus-node-exporter-lua-nat_traffic 
+opkg prometheus-node-exporter-lua-netstat 
+opkg prometheus-node-exporter-lua-openwrt 
+
+
+#Create the exporter service file. This will expose metrics on port 9100 on the 'lan' interface
+vi /etc/config/prometheus-node-exporter-lua
+
+#Restart the service for chages to take effect
+/etc/config/prometheus-node-exporter-lua restart

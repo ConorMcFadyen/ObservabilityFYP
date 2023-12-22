@@ -1,0 +1,35 @@
+# my global config
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration, pointing to 
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - localhost:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - ../alertmanager/default-rules/rulegroup_1.yml
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# scheme defaults to 'http'.
+scrape_configs:
+
+  # This job has the funtction of scraping metrics from it's own prometheus instance
+  - job_name: "prometheus"
+
+    # Scrape our the metrics from this local prometheus instance
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # This job is to scrape the metrics from our router, exposed by our node-exporter-lua
+  - job_name: "router"
+
+    # Scrape our the metrics from this local prometheus instance
+    static_configs:
+      - targets: ["192.168.1.1:9100]

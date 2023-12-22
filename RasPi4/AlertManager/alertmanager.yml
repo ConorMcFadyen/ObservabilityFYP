@@ -1,0 +1,46 @@
+global:
+  # Resolve timeout is set at 1m, if an alert does not include an 'EndsAt' label it will be marked as resolved after 1m.
+  resolve_timeout: 1m
+
+
+# Here a route and receiver to send alerts to an email address will be created
+route:
+  # Each alert is assigned the label 'alertname:'' by defualt. Alerts are grouped by alertnames
+  group_by: ['alertname']
+
+  # The time alertmanager will wait to send a notification for a group of alerts
+  group_wait: 30s
+
+  # The time alertmanager will wait before sending a notification of new alerts in a group
+  group_interval: 5m
+
+  # The time alertmanger will wait before sending a notification again once a notification has been sent successfully
+  repeat_interval: 5m
+
+  # A name of a receiver config
+  reciever: 'gmail'
+
+
+
+receivers:
+  - name: 'gmail'
+    email_configs:
+      - to: c20520596@mytudublin.ie
+        from: conor@spotlightit.com
+        #SMPT server for Gmail, using port 587 TLS
+        smarthost: smtp:gmail.com:587
+        auth_username: conor@spotlightit.com
+        auth_identity: conor@spotlightit.com
+        auth_password: **** **** **** ****
+        send_resolved: true
+
+
+# Inhibit rules allows certain alerts to be muted. This is used to establish dependencies. 
+# For example if the router is unplugged from the home's broadband socket and this triggers an alert. The user does not want a flood of network alerts
+# that are dependent on the router being connected to the users broadband socket 
+inhibit_rules:
+  - source_match:
+     severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname' , 'dev', 'instance']

@@ -1,0 +1,17 @@
+/etc/systemd/system
+
+[Unit]
+Description=Alertmanager for prometheus
+Documentation=https://prometheus.io/docs/alerting/alertmanager/
+After=network-online.target
+
+[Service]
+Restart=on-failure
+User=conor
+ExecStart=/home/conor/alertmanager/alertmanager \
+    --storage.path=home/conor/alertmanager/data
+    --config.file=home/conor/alertmanager/alertmanager.yml
+
+
+[Install]
+WantedBy=multi-user.target
